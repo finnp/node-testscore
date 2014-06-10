@@ -1,0 +1,34 @@
+{
+  "name": "testscore",
+  "version": "0.0.0",
+  "description": "Show how many modules of an npm author have tests",
+  "main": "index.js",
+  "bin": {
+    "testscore": "./cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/finnp/node-testscore.git"
+  },
+  "keywords": [
+    "test",
+    "author",
+    "npm"
+  ],
+  "author": "Finn Pauls",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/finnp/node-testscore/issues"
+  },
+  "homepage": "https://github.com/finnp/node-testscore",
+  "dependencies": {
+    "request": "^2.36.0",
+    "npm": "^1.4.14",
+    "nomnom": "^1.7.0",
+    "sync-exec": "^0.3.2",
+    "colors": "^0.6.2"
+  }
+}

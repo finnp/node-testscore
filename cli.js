@@ -32,7 +32,7 @@ var opts = require('nomnom')
   });
   
   function checkTestField(pack) {
-    var testcommand =  exec('npm view ' + pack +' scripts.test').stdout.trim();
+    var testcommand =  exec('npm view ' + pack +' scripts.test --silent').stdout.trim();
     if(testcommand && testcommand != 'echo "Error: no test specified" && exit 1') {
       process.stdout.write(' \u2713'.green);
       nWithTests++;

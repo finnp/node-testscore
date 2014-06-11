@@ -28,6 +28,7 @@
     "request": "^2.36.0",
     "nomnom": "^1.7.0",
     "sync-exec": "^0.3.2",
-    "colors": "^0.6.2"
+    "colors": "^0.6.2",
+    "npmview": "0.0.4"
   }
 }

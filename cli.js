@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 var request = require('request');
 var colors = require('colors');
+var npmview = require('npmview');
 var exec = require('sync-exec');
 
 var opts = require('nomnom')
@@ -8,6 +9,11 @@ var opts = require('nomnom')
     abbr: 'a',
     default: 'npm whoami',
     help: 'The author to show the tests from'
+  })
+  .option('registry', {
+    abbr: 'r',
+    default: 'http://registry.npmjs.org',
+    help: 'The npm registry to use'
   })
   .parse()
   ;
@@ -19,28 +25,23 @@ var opts = require('nomnom')
     var author = exec('npm whoami').stdout.trim();
   }
     
-  var nWithTests = 0;
-  var url = 'http://registry.npmjs.org/-/by-user/' + author;
+  var url = opts.registry + '/-/by-user/' + author;
   console.log('Requesting modules by ' + author + ' ...');
   request({url: url, json: true}, function (err, response, body) {
+    if(err) { console.error(err); return; }
+    if(response.statusCode !== 200) { 
+      console.error('Registry Error ' + response.statusCode);
+      return;
+    }
     var packages = body[author];
     packages.forEach(function (pack) {
-      process.stdout.write('- ' + pack);
-      checkTestField(pack);
+      npmview(pack, function (err, version, info) {
+        if(err) { console.error(err); return; }
+      
+        var hasTest = info.scripts && info.scripts.test && info.scripts.test != 'echo "Error: no test specified" && exit 1';
+        var moduleStatus = hasTest ? '\u2713'.green : '\u2717'.red;
+
+        console.log('-' + info.name + ' ' + moduleStatus);
+      });
     });
-    console.log(nWithTests + '/' + packages.length + ' modules have tests');
   });
-  
-  function checkTestField(pack) {
-    var testcommand =  exec('npm view ' + pack +' scripts.test --silent').stdout.trim();
-    if(testcommand && testcommand != 'echo "Error: no test specified" && exit 1') {
-      process.stdout.write(' \u2713'.green);
-      nWithTests++;
-    } else {
-      process.stdout.write(' \u2717'.red);
-    }
-    console.log();
-  }
-
-  
-

@@ -34,14 +34,26 @@ var opts = require('nomnom')
       return;
     }
     var packages = body[author];
+    var doneAll = function (test, total) {
+      var percentage = Math.round(test / total * 100);
+      console.log(percentage + "% of modules have tests. (" + test + "/" + total + ")");
+    }
+    var testCount = 0;
+    var totalCount = 0;
     packages.forEach(function (pack) {
       npmview(pack, function (err, version, info) {
         if(err) { console.error(err); return; }
       
         var hasTest = info.scripts && info.scripts.test && info.scripts.test != 'echo "Error: no test specified" && exit 1';
+        if (hasTest) testCount++;
+        totalCount++;
         var moduleStatus = hasTest ? '\u2713'.green : '\u2717'.red;
 
         console.log('-' + info.name + ' ' + moduleStatus);
+
+        if (totalCount == packages.length) {
+            doneAll(testCount, totalCount);
+        }
       });
     });
   });

@@ -1,6 +1,6 @@
 {
   "name": "testscore",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Show how many modules of an npm author have tests",
   "main": "index.js",
   "bin": {

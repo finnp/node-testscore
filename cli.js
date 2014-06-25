@@ -34,7 +34,8 @@ var opts = require('nomnom')
   
   function testscore(test, total) {
     // test count two times
-    return 3 * test - total;
+    var score = 3 * test - total;
+    return score > 0 ? chalk.green(score) : chalk.red(score);
   }
   
   function quality(test, total) {

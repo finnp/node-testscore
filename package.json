@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/finnp/node-testscore",
   "dependencies": {
-    "chalk": "^0.4.0",
+    "chalk": "^1.0.0",
     "nomnom": "^1.7.0",
     "npmview": "0.0.4",
     "request": "^2.36.0",
